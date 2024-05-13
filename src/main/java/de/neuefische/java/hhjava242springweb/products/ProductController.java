@@ -3,6 +3,7 @@ package de.neuefische.java.hhjava242springweb.products;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
@@ -14,10 +15,12 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-
     @GetMapping
-    public List<Product> getProduct() {
-        return productRepository.findAll();
+    public List<ProductLite> getProduct() {
+        return productRepository.findAll()
+                .stream()
+                .map(p -> new ProductLite(p.id(), p.title()))
+                .toList();
     }
 
     @GetMapping("{productId}")
@@ -27,7 +30,10 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product postProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+    public Product postProduct(@RequestBody NewProductDto product) {
+        Product productToSave = new Product(UUID.randomUUID().toString(), product.title(), product.price());
+
+        return productRepository.save(productToSave);
     }
+
 }
