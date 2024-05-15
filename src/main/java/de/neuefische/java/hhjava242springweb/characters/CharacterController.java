@@ -1,9 +1,11 @@
 package de.neuefische.java.hhjava242springweb.characters;
 
-import de.neuefische.java.hhjava242springweb.characters.api.RickMortyApiResponse;
+import de.neuefische.java.hhjava242springweb.characters.api.RickMortyApiCharacter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/characters")
@@ -16,7 +18,7 @@ public class CharacterController {
     }
 
     @GetMapping
-    public RickMortyApiResponse getAllCharacters() {
-        return rickMortyApiService.loadAllCharacters();
+    public List<RickMortyApiCharacter> getAllCharacters() {
+        return rickMortyApiService.loadAllCharacters().results();
     }
 }
