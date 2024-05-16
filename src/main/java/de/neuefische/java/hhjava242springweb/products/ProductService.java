@@ -3,6 +3,7 @@ package de.neuefische.java.hhjava242springweb.products;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -20,7 +21,7 @@ public class ProductService {
 
     public Product getProductById(String id) {
         return productRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new NoSuchElementException("Product with id: " + id + " not found!"));
     }
 
     public Product saveProduct(Product newProduct) {
